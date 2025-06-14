@@ -11,7 +11,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { calculateBMR, calculateTDEE } from '@/lib/calorie-calculator';
+import { calculateBMR, calculateTDEE, calculateTargetCalories, calculateMacroTargets } from '@/lib/calorie-calculator';
 import { thaiTranslations as t } from '@/lib/translations';
 import { fadeIn, slideIn, staggerContainer } from '@/lib/motion-variants';
 import { User, Ruler, Activity, Target, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -98,13 +98,26 @@ export default function OnboardingPage() {
 
     const tdee = calculateTDEE(bmr, formData.activityLevel);
 
-    // Adjust for goal
-    let targetCalories = tdee;
-    if (formData.goal === 'lose') {
-      targetCalories = tdee - 500;
-    } else if (formData.goal === 'gain') {
-      targetCalories = tdee + 500;
+    // Map form goals to calculation function goals
+    let goalForCalculation: string;
+    switch (formData.goal) {
+      case 'lose':
+        goalForCalculation = 'loseWeight';
+        break;
+      case 'gain':
+        goalForCalculation = 'gainWeight';
+        break;
+      case 'maintain':
+      default:
+        goalForCalculation = 'maintainWeight';
+        break;
     }
+
+    // Use proper calorie calculation function
+    const targetCalories = calculateTargetCalories(tdee, goalForCalculation);
+
+    // Calculate proper macro targets based on goal
+    const macroTargets = calculateMacroTargets(targetCalories, goalForCalculation);
 
     // Store user data and calculated values
     localStorage.setItem(
@@ -114,6 +127,7 @@ export default function OnboardingPage() {
         bmr,
         tdee,
         targetCalories,
+        macroTargets,
       })
     );
 

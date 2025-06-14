@@ -63,7 +63,7 @@ export function calculateMacroTargets(targetCalories: number, goal: string = 'ma
       break;
     case 'gainWeight':
       proteinPercent = 0.25;
-      carbsPercent = 0.5; // Higher carbs for energy
+      carbsPercent = 0.5;
       fatPercent = 0.25;
       break;
     case 'maintainWeight':
