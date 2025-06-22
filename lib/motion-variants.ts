@@ -50,11 +50,11 @@ export const slideIn = (direction: 'left' | 'right' | 'up' | 'down'): Variants =
 };
 
 export const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
+  hidden: {},
   visible: {
-    opacity: 1,
     transition: {
       staggerChildren: 0.1,
+      delayChildren: 0.1,
     },
   },
 };

@@ -3,103 +3,199 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { thaiTranslations as t } from '@/lib/translations';
 import { fadeIn, slideUp, staggerContainer } from '@/lib/motion-variants';
-import { ChevronLeft, ChevronRight, PlayCircle } from 'lucide-react';
+import { Card, FeatureCard, StatsCard } from '@/components/ui/modern-card';
+import { t } from '@/lib/translations';
+import {
+  ChevronRight,
+  PlayCircle,
+  TrendingUp,
+  Target,
+  Calendar,
+  BarChart3,
+  Apple,
+  Zap,
+  Heart,
+  Award,
+  Sparkles,
+} from 'lucide-react';
 
 const features = [
-  { key: 'keepHealthyDiet', icon: '🥗' },
-  { key: 'takeChallenge', icon: '🏆' },
-  { key: 'takeWorkLifeBalance', icon: '⚖️' },
+  {
+    key: 'smartNutrition',
+    icon: Apple,
+    titleKey: 'features_smartNutrition_title_i18n',
+    descriptionKey: 'features_smartNutrition_desc_i18n',
+  },
+  {
+    key: 'achievementSystem',
+    icon: Award,
+    titleKey: 'features_achievementSystem_title_i18n',
+    descriptionKey: 'features_achievementSystem_desc_i18n',
+  },
+  {
+    key: 'wellnessIntegration',
+    icon: Heart,
+    titleKey: 'features_wellnessIntegration_title_i18n',
+    descriptionKey: 'features_wellnessIntegration_desc_i18n',
+  },
+  {
+    key: 'activityTracking',
+    icon: Zap,
+    titleKey: 'features_activityTracking_title_i18n',
+    descriptionKey: 'features_activityTracking_desc_i18n',
+  },
+];
+
+const stats = [
+  { labelKey: 'stats_dailyActiveUsers_i18n', value: '10K+', icon: TrendingUp },
+  { labelKey: 'stats_weeklyGoalsAchieved_i18n', value: '50K+', icon: BarChart3 },
+  { labelKey: 'stats_totalMealsLogged_i18n', value: '25K+', icon: Target },
+  { labelKey: 'stats_userSatisfaction_i18n', value: '98%', icon: Calendar },
 ];
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#e0f5eb] to-[#c2e8d7]">
-      <div className="container mx-auto px-6 py-12">
-        <motion.div
-          className="max-w-4xl mx-auto text-center"
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Hero Section */}
-          <motion.div className="mb-16" variants={fadeIn}>
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6">{t.consumeHealthFood}</h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Transform your lifestyle with our comprehensive calorie tracking and wellness platform
-            </p>
-          </motion.div>
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/10">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden spotify-section">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5" />
+        <div className="spotify-container relative">
+          <motion.div
+            className="max-w-5xl mx-auto text-center"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div variants={fadeIn} className="mb-12">
+              <h1 className="spotify-text-hero mb-8">{t('hero_title_i18n')}</h1>
+              <p className="spotify-text-body text-xl max-w-3xl mx-auto">{t('hero_subtitle_i18n')}</p>
+            </motion.div>
 
-          {/* Features Grid */}
-          <motion.div className="grid md:grid-cols-3 gap-8 mb-16" variants={staggerContainer}>
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.key}
-                className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-                variants={fadeIn}
-                whileHover={{ y: -10, scale: 1.02 }}
-                whileTap={{ scale: 0.95 }}
-                custom={index}
-              >
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-800">{t[feature.key as keyof typeof t]}</h3>
+            <motion.div variants={slideUp} className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
+              <Link href="/onboarding">
+                <Button variant="primary" size="xl" className="spotify-hover-lift">
+                  <PlayCircle className="w-6 h-6 mr-3" />
+                  {t('hero_tryNow_i18n')}
+                  <Sparkles className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
+              <Link href="/dashboard">
+                <Button variant="glass" size="xl" className="spotify-hover-lift">
+                  <BarChart3 className="w-6 h-6 mr-3" />
+                  View Dashboard
+                </Button>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="spotify-section border-y border-border/30">
+        <div className="spotify-container">
+          <motion.div
+            className="spotify-grid"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {stats.map((stat, index) => (
+              <motion.div key={stat.labelKey} variants={fadeIn} custom={index}>
+                <StatsCard
+                  title={t(stat.labelKey)}
+                  value={stat.value}
+                  icon={<stat.icon className="w-5 h-5" />}
+                  className="text-center"
+                />
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
 
-          {/* Navigation Controls */}
-          <motion.div className="flex justify-center items-center gap-6 mb-16" variants={slideUp}>
-            <motion.button
-              className="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center hover:shadow-lg transition-shadow"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <ChevronLeft className="w-5 h-5 text-gray-600" />
-            </motion.button>
-
-            <motion.div
-              className="flex items-center gap-3 bg-white rounded-full px-6 py-3 shadow-md"
-              whileHover={{ scale: 1.05 }}
-            >
-              <span className="text-lg font-semibold text-gray-800">{t.start}</span>
-              <PlayCircle className="w-6 h-6 text-green-600" />
-            </motion.div>
-
-            <motion.button
-              className="w-12 h-12 rounded-full bg-gray-800 text-white flex items-center justify-center hover:bg-gray-700 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <ChevronRight className="w-5 h-5" />
-            </motion.button>
-          </motion.div>
-
-          {/* CTA Section */}
+      {/* Features Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-6">
           <motion.div
-            className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-lg max-w-md mx-auto"
+            className="text-center mb-16"
             variants={fadeIn}
             initial="hidden"
-            animate="visible"
-            transition={{ delay: 0.6 }}
+            whileInView="visible"
+            viewport={{ once: true }}
           >
-            <p className="text-gray-600 mb-6 text-lg">{t.noAccount}</p>
-            <Link href="/onboarding" className="block">
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button
-                  size="lg"
-                  className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  {t.signUp}
-                </Button>
-              </motion.div>
-            </Link>
+            <h2 className="spotify-text-hero mb-6">{t('features_sectionTitle_i18n')}</h2>
+            <p className="spotify-text-body text-xl text-muted-foreground max-w-2xl mx-auto">
+              {t('features_sectionDescription_i18n')}
+            </p>
           </motion.div>
 
-          {/* Decorative Elements */}
-          <div className="absolute top-20 left-10 w-20 h-20 bg-green-200 rounded-full opacity-50 blur-xl"></div>
-          <div className="absolute bottom-20 right-10 w-32 h-32 bg-blue-200 rounded-full opacity-30 blur-2xl"></div>
-        </motion.div>
+          <motion.div
+            className="spotify-grid max-w-6xl mx-auto"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.key}
+                variants={fadeIn}
+                custom={index}
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
+                <FeatureCard
+                  title={t(feature.titleKey)}
+                  description={t(feature.descriptionKey)}
+                  icon={<feature.icon className="w-6 h-6" />}
+                  className="h-full"
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-primary/5 via-transparent to-accent/5">
+        <div className="container mx-auto px-6">
+          <motion.div
+            className="max-w-3xl mx-auto text-center"
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <Card variant="glass" className="border-primary/20 bg-card/50 backdrop-blur-sm p-12">
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <h2 className="spotify-text-hero">{t('cta_title_i18n')}</h2>
+                  <p className="spotify-text-body text-lg text-muted-foreground">{t('cta_description_i18n')}</p>
+                </div>
+
+                <div className="pt-4">
+                  <Link href="/onboarding">
+                    <Button variant="primary" size="xl" className="spotify-glow w-full sm:w-auto">
+                      <Zap className="w-5 h-5 mr-2" />
+                      {t('cta_getStartedFree_i18n')}
+                      <ChevronRight className="w-5 h-5 ml-2" />
+                    </Button>
+                  </Link>
+                  <p className="text-sm text-muted-foreground mt-4">{t('cta_noCreditCard_i18n')}</p>
+                </div>
+              </div>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Background Decorations */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 left-10 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-10 w-48 h-48 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute top-3/4 left-1/3 w-24 h-24 bg-primary/3 rounded-full blur-2xl" />
       </div>
     </div>
   );
