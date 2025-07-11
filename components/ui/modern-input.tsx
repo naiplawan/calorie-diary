@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Eye, EyeOff, AlertCircle, Check } from 'lucide-react';
 
@@ -64,7 +63,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <div className="relative">
         {/* Label */}
         {label && (
-          <motion.label
+          <label
             className={cn(
               'absolute left-4 transition-all duration-200 pointer-events-none',
               'text-muted-foreground',
@@ -80,18 +79,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 ? 'top-5 text-xl'
                 : 'top-3 text-base'
             )}
-            animate={
-              animate
-                ? {
-                    y: isFocused || hasValue ? 0 : 0,
-                    scale: isFocused || hasValue ? 0.85 : 1,
-                  }
-                : undefined
-            }
-            transition={{ duration: 0.2 }}
           >
             {label}
-          </motion.label>
+          </label>
         )}
 
         {/* Input Container */}
@@ -164,25 +154,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         {/* Helper Text / Error Message */}
         {(error || helperText) && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={cn('mt-2 text-sm font-medium', error ? 'text-destructive' : 'text-muted-foreground')}
-          >
+          <div className={cn('mt-2 text-sm font-medium', error ? 'text-destructive' : 'text-muted-foreground')}>
             {error || helperText}
-          </motion.div>
+          </div>
         )}
       </div>
     );
 
-    if (animate) {
-      return (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-          {inputElement}
-        </motion.div>
-      );
-    }
-
+    // animations removed; always render static input
     return inputElement;
   }
 );
@@ -221,7 +200,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       <div className="relative">
         {/* Label */}
         {label && (
-          <motion.label
+          <label
             className={cn(
               'absolute left-4 transition-all duration-200 pointer-events-none z-10',
               'text-muted-foreground',
@@ -231,14 +210,9 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
                   : '-top-6 text-xs font-medium bg-background px-2 -ml-2'
                 : 'top-3 text-base'
             )}
-            animate={{
-              y: isFocused || hasValue ? 0 : 0,
-              scale: isFocused || hasValue ? 0.85 : 1,
-            }}
-            transition={{ duration: 0.2 }}
           >
             {label}
-          </motion.label>
+          </label>
         )}
 
         {/* Textarea */}
@@ -269,13 +243,9 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 
         {/* Helper Text / Error Message */}
         {(error || helperText) && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={cn('mt-2 text-sm font-medium', error ? 'text-destructive' : 'text-muted-foreground')}
-          >
+          <div className={cn('mt-2 text-sm font-medium', error ? 'text-destructive' : 'text-muted-foreground')}>
             {error || helperText}
-          </motion.div>
+          </div>
         )}
       </div>
     );

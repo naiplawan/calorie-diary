@@ -93,7 +93,11 @@ export const FormRadioGroup: React.FC<FormRadioGroupProps> = ({
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="flex items-start space-x-4">
-                  <RadioGroupItem value={option.value} id={option.value} className="hidden" />
+                  <RadioGroupItem
+                    value={option.value}
+                    id={option.value}
+                    className="absolute inset-0 w-full h-full cursor-pointer opacity-0 z-10"
+                  />
 
                   {/* Custom Radio Indicator */}
                   <div className="flex-shrink-0 mt-1">

@@ -4,10 +4,10 @@ import type React from 'react';
 import { motion } from 'framer-motion';
 import type { UseFormReturn } from 'react-hook-form';
 import { Input } from '@/components/ui/modern-input';
-import { thaiTranslations as t } from '@/lib/translations';
+
 import { fadeIn } from '@/lib/motion-variants';
 import type { OnboardingFormData } from '@/lib/validations/onboarding';
-import { Ruler, Scale, Target, Calculator, Info, Sparkles } from 'lucide-react';
+import { Scale, Target, Calculator, Info } from 'lucide-react';
 
 interface Step2Props {
   form: UseFormReturn<OnboardingFormData>;
@@ -61,14 +61,12 @@ export const Step2BodyMeasurements: React.FC<Step2Props> = ({ form }) => {
           }}
         >
           <Input
-            label="Height (cm)"
             type="number"
             placeholder="Enter your height"
             min="100"
             max="250"
             step="0.1"
             error={errors.height?.message}
-            leftIcon={<Ruler className="w-4 h-4" />}
             variant="glass"
             inputSize="lg"
             helperText="Your height in centimeters (e.g., 170 cm)"
